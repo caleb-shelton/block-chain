@@ -1,22 +1,22 @@
 import hashlib
-from itertools import chain
 
-class Block():
+
+class Block:
     def __init__(self, data, h, prev_hash=None):
         self.data = data
-        h.update(data.encode('utf-8'))
+        h.update(data.encode("utf-8"))
         self.hash = h.hexdigest()
         self.prev_hash = prev_hash
 
     def __str__(self):
         return str(self.hash)
 
-class BlockChain():
-    chain = []
 
+class BlockChain:
     def __init__(self, data):
-        self.h = hashlib.new('sha256')
-        
+        self.chain = []
+        self.h = hashlib.new("sha256")
+
         if self.chain == []:
             # generate Genesis block
             self.chain.append(Block(data=data, h=self.h))
@@ -34,22 +34,15 @@ class BlockChain():
         count = 1
         for block in self.chain:
             lines += "----------   "
-            hash += "| 0x"+block.hash[:4]+" |"
+            hash += "| 0x" + block.hash[:4] + " |"
             if count != len(self.chain):
                 hash += "<->"
             count += 1
-        result = lines+"\n"+hash+"\n"+lines
-        return result 
-
+        result = lines + "\n" + hash + "\n" + lines
+        return result
 
 
 block_chain = BlockChain(data="hello")
 block_chain.add_block(data="hello")
 block_chain.add_block(data="hello")
-
-block_chain.add_block(data="hello")
-block_chain.add_block(data="hello")
-block_chain.add_block(data="hello")
-block_chain.add_block(data="hello")
-
 print(block_chain)
